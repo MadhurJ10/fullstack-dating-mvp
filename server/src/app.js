@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import authRoute from "./routes/auth.routes.js"
 import userRoute from "./routes/user.route.js"
+import likeRoute from "./routes/like.route.js"
 import passport from "passport";
 import "./config/passport.js"
 
@@ -20,7 +21,7 @@ app.use(passport.initialize());
 
 app.use("/auth", authRoute);
 app.use("/user" , userRoute)
-
+app.use('/like' , likeRoute);
 
 /* health check */
 app.get("/", (req, res) => {

@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import OAuthSuccess from "./pages/OAuthSuccess";
-import Dashboard from "./pages/Dashboard";
+import Discover from "./pages/Discover";
+import Matches from "./pages/Matches";
 
 function App() {
   return (
@@ -9,7 +10,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/oauth-success" element={<OAuthSuccess />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/discover" element={<Discover />} />
+        <Route path="/matches" element={<Matches />} />
       </Routes>
     </BrowserRouter>
   );
