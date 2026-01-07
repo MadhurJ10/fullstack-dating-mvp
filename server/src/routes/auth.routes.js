@@ -1,6 +1,9 @@
 import express from "express";
 import passport from "passport";
+import config  from "../config/environment.js";
 
+
+const {CLIENT_URL } = config 
 const router = express.Router();
 
 router.get(
@@ -16,7 +19,7 @@ router.get(
 
     // redirect to frontend with token
     res.redirect(
-      `http://localhost:5173/oauth-success?token=${token}`
+      `${CLIENT_URL}/oauth-success?token=${token}`
     );
   }
 );
