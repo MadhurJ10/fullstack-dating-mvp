@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
 /* Heart Icon */
@@ -16,6 +17,9 @@ const HeartIcon = () => (
 function Discover() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProfiles();
@@ -25,7 +29,7 @@ function Discover() {
     api
       .get("/user/getProfiles")
       .then((res) => setProfiles(res.data))
-      .catch(() => alert("Unable to load profiles"))
+      .catch(() => setToast("❌ Failed to load profiles"))
       .finally(() => setLoading(false));
   };
 
@@ -35,16 +39,22 @@ function Discover() {
 
     try {
       const res = await api.post(`/like/${id}`);
+
       if (res.data.matched) {
-        alert(`🎉 It's a match with ${name}!`);
+        setToast(`🎉 It's a match with ${name}!`);
+      } else {
+        setToast("❤️ Like sent");
       }
+
+      setTimeout(() => setToast(null), 2000);
     } catch (err) {
       setProfiles(previous);
-      alert(err.response?.data?.message || "Something went wrong");
+      setToast("❌ Something went wrong");
+      setTimeout(() => setToast(null), 2000);
     }
   };
 
-  
+  /* ---------- Loading ---------- */
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -65,13 +75,23 @@ function Discover() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-6 py-10">
         {/* Header */}
-        <header className="text-center mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900">
-            Discover
-          </h2>
-          <p className="text-sm text-gray-500 mt-1">
-            Find people you might like
-          </p>
+        <header className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-2xl font-semibold text-gray-900">
+              Discover
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Find people you might like
+            </p>
+          </div>
+
+          {/* Matches Button */}
+          <button
+            onClick={() => navigate("/matches")}
+            className="text-sm font-medium text-indigo-600 hover:underline"
+          >
+            View Matches →
+          </button>
         </header>
 
         {/* Empty State */}
@@ -115,7 +135,11 @@ function Discover() {
 
                   <button
                     onClick={() => likeUser(user._id, user.name)}
-                    className="mt-3 w-full flex items-center justify-center gap-1.5 bg-rose-50 text-rose-600 hover:bg-rose-500 hover:text-white py-2 rounded-lg text-sm font-medium transition active:scale-95"
+                    className="mt-3 w-full flex items-center justify-center gap-1.5 
+                    bg-rose-50 text-rose-600 
+                    hover:bg-rose-500 hover:text-white 
+                    py-2 rounded-lg text-sm font-medium 
+                    transition active:scale-95"
                   >
                     <HeartIcon />
                     Like
@@ -126,6 +150,13 @@ function Discover() {
           </div>
         )}
       </div>
+
+      {/* Toast Notification */}
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm transition">
+          {toast}
+        </div>
+      )}
     </div>
   );
 }
