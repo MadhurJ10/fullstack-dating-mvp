@@ -12,7 +12,9 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback"
+      // callbackURL: "/auth/google/callback"
+      callbackURL: "https://fullstack-dating-mvp-production.up.railway.app/auth/google/callback"
+
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
