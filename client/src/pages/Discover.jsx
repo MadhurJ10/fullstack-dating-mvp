@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
-/* Heart Icon */
 const HeartIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -25,39 +24,34 @@ function Discover() {
     fetchProfiles();
   }, []);
 
-  const fetchProfiles = () => {
-    api
-      .get("/user/getProfiles")
-      .then((res) => setProfiles(res.data))
-      .catch(() => setToast("❌ Failed to load profiles"))
-      .finally(() => setLoading(false));
+  const fetchProfiles = async () => {
+    try {
+      const res = await api.get("/user/getProfiles");
+      setProfiles(res.data);
+    } catch (err) {
+      setToast("❌ Failed to load profiles");
+      setTimeout(() => setToast(null), 2000);
+    } finally {
+      setLoading(false);
+    }
   };
 
- const likeUser = async (id, name) => {
-  const previous = [...profiles];
-  setProfiles(profiles.filter((p) => p._id !== id));
+  const likeUser = async (id, name) => {
+    try {
+      const res = await api.post(`/like/${id}`);
 
-  try {
-    const res = await api.post(`/like/${id}`);
-
-    if (res.data.matched) {
-      setToast(`🎉 It's a match with ${name}!`);
-    } else if (res.data.message === "Already liked") {
-      setToast("⚠️ You already liked this profile");
-    } else {
-      setToast("❤️ Like sent");
+      if (res.data.matched) {
+        setToast(`🎉 It's a match with ${name}!`);
+      } else {
+        setToast("❤️ Liked");
+      }
+    } catch (err) {
+      setToast("❌ Failed to like user");
     }
 
     setTimeout(() => setToast(null), 2000);
-  } catch (err) {
-    setProfiles(previous);
-    setToast("❌ Something went wrong");
-    setTimeout(() => setToast(null), 2000);
-  }
-};
+  };
 
-
-  /* ---------- Loading ---------- */
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -77,7 +71,6 @@ function Discover() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-6 py-10">
-        {/* Header */}
         <header className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-2xl font-semibold text-gray-900">
@@ -88,7 +81,6 @@ function Discover() {
             </p>
           </div>
 
-          {/* Matches Button */}
           <button
             onClick={() => navigate("/matches")}
             className="text-sm font-medium text-indigo-600 hover:underline"
@@ -97,10 +89,9 @@ function Discover() {
           </button>
         </header>
 
-        {/* Empty State */}
         {profiles.length === 0 ? (
           <div className="text-center py-24">
-            <p className="text-gray-400 text-base">
+            <p className="text-gray-400">
               No more profiles to show
             </p>
             <button
@@ -125,8 +116,6 @@ function Discover() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-
-                {/* Content */}
                 <div className="p-3">
                   <h3 className="text-sm font-semibold text-gray-900 truncate">
                     {user.name}
@@ -154,9 +143,8 @@ function Discover() {
         )}
       </div>
 
-      {/* Toast Notification */}
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm transition">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
           {toast}
         </div>
       )}
