@@ -14,9 +14,9 @@ const HeartIcon = () => (
 );
 
 function Discover() {
-  const [profiles, setProfiles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [toast, setToast] = useState(null);
+  const [ profiles, setProfiles ] = useState([]);
+  const [ loading, setLoading ] = useState(true);
+  const [ toast, setToast ] = useState(null);
 
   const navigate = useNavigate();
 
@@ -42,8 +42,10 @@ function Discover() {
 
       if (res.data.matched) {
         setToast(`🎉 It's a match with ${name}!`);
+      } else if (res.data.message === "Already liked") {
+        setToast("⚠️ You already liked this profile");
       } else {
-        setToast("❤️ Liked");
+        setToast("❤️ Like sent");
       }
     } catch (err) {
       setToast("❌ Failed to like user");
@@ -56,7 +58,7 @@ function Discover() {
     return (
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-          {[...Array(5)].map((_, i) => (
+          {[ ...Array(5) ].map((_, i) => (
             <div key={i} className="animate-pulse space-y-3">
               <div className="h-56 bg-gray-200 rounded-xl" />
               <div className="h-4 bg-gray-200 rounded w-3/4" />

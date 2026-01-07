@@ -23,7 +23,7 @@ app.use("/auth", authRoute);
 app.use("/user" , userRoute)
 app.use('/like' , likeRoute);
 
-/* health check */
+
 app.get("/", (req, res) => {
   res.send("API live 🚀");
 });

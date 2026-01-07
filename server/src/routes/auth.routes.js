@@ -17,7 +17,7 @@ router.get(
   (req, res) => {
     const { token } = req.user;
 
-    // redirect to frontend with token
+    
     res.redirect(
       `${CLIENT_URL}/oauth-success?token=${token}`
     );
