@@ -33,26 +33,29 @@ function Discover() {
       .finally(() => setLoading(false));
   };
 
-  const likeUser = async (id, name) => {
-    const previous = [...profiles];
-    setProfiles(profiles.filter((p) => p._id !== id));
+ const likeUser = async (id, name) => {
+  const previous = [...profiles];
+  setProfiles(profiles.filter((p) => p._id !== id));
 
-    try {
-      const res = await api.post(`/like/${id}`);
+  try {
+    const res = await api.post(`/like/${id}`);
 
-      if (res.data.matched) {
-        setToast(`🎉 It's a match with ${name}!`);
-      } else {
-        setToast("❤️ Like sent");
-      }
-
-      setTimeout(() => setToast(null), 2000);
-    } catch (err) {
-      setProfiles(previous);
-      setToast("❌ Something went wrong");
-      setTimeout(() => setToast(null), 2000);
+    if (res.data.matched) {
+      setToast(`🎉 It's a match with ${name}!`);
+    } else if (res.data.message === "Already liked") {
+      setToast("⚠️ You already liked this profile");
+    } else {
+      setToast("❤️ Like sent");
     }
-  };
+
+    setTimeout(() => setToast(null), 2000);
+  } catch (err) {
+    setProfiles(previous);
+    setToast("❌ Something went wrong");
+    setTimeout(() => setToast(null), 2000);
+  }
+};
+
 
   /* ---------- Loading ---------- */
   if (loading) {
