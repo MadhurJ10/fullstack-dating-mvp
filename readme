@@ -1,0 +1,111 @@
+Full Stack Dating MVP
+
+Submission Document
+
+## 1. Project Overview
+
+This project is a Full Stack Dating MVP where users authenticate using Google OAuth, discover other users,
+like profiles, and get matched when the interest is mutual.
+
+The primary focus of this project was:
+
+- Clean backend architecture
+- Secure OAuth implementation
+- Clear user interaction flow
+- Fast execution and deployment
+
+## 2. Features Implemented
+
+- Google OAuth 2.0 authentication using Passport.js
+- JWT-based stateless authentication
+- User discovery (excluding the logged-in user)
+- Like system with duplicate-like prevention
+- Automatic match creation on mutual likes
+- Matches listing
+- Responsive UI with real-time feedback (toast notifications)
+
+## 3. Tech Stack
+
+**Frontend:**
+
+- React
+- Tailwind CSS
+- Axios
+- React Router
+
+**Backend:**
+
+- Node.js
+- Express.js
+- MongoDB with Mongoose
+- Passport.js (Google OAuth Strategy)
+- JSON Web Tokens (JWT)
+
+## 4. Authentication & Security
+
+- Google OAuth handled securely using Passport strategy
+- JWT used for protected routes and stateless sessions
+- Sensitive credentials stored in environment variables
+- Duplicate likes prevented at database level
+- Backend validation for invalid or malicious requests
+
+## 5. Architecture Overview
+
+The backend follows a clean and modular structure:
+
+- Routes define API endpoints
+- Controllers handle request logic
+- Models define database schemas
+- Middleware handles authentication and authorization
+
+This separation ensures readability, maintainability, and scalability.
+
+## 6. Deployment
+
+- Frontend deployed on Vercel
+- Backend deployed on Railway
+
+Live URLs:
+
+- Frontend: https://fullstack-dating-mvp.vercel.app/
+- Backend: https://fullstack-dating-mvp-production.up.railway.app
+
+video Link: https://drive.google.com/file/d/1bDlrqNQhwbAbkN6dmrCtta29N4ywF3dA/view?usp=sharing
+
+## 7. How to Run Locally
+
+**Backend**
+
+1. Clone the repository
+2. Install dependencies
+3. Create a .env file with required variables
+4. Start the server
+
+**Frontend**
+
+1. Install dependencies
+2. Set API base URL in .env
+3. Start development server
+
+(Full instructions are provided in the README)
+
+## 8. Screen Recording
+
+A short screen recording is provided demonstrating:
+
+- Google login
+- User discovery
+- Like functionality
+- Mutual match creation
+- Matches page
+
+(Video shared via Google Drive)
+
+## 9. Time Log
+
+Total time taken: 8hours
+
+## 10. Closing Note
+
+The project prioritizes correctness, security, and clarity over unnecessary complexity.
+All core requirements are implemented, tested, and deployed successfully.
